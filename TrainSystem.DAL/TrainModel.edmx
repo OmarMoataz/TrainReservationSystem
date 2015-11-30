@@ -1,0 +1,395 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TrainReservationSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Car">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TrainID" Type="bigint" Nullable="false" />
+          <Property Name="Number" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="History">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="PassportNumber" Type="bigint" Nullable="false" />
+          <Property Name="TrainID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LogIn">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Type" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Passenger">
+          <Key>
+            <PropertyRef Name="PassportNumber" />
+          </Key>
+          <Property Name="PassportNumber" Type="bigint" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Seat">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CarID" Type="bigint" Nullable="false" />
+          <Property Name="Coordinates" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Available" Type="bit" Nullable="false" />
+          <Property Name="PassengerPassport" Type="bigint" />
+        </EntityType>
+        <EntityType Name="Train">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StartingStation" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="EndingStation" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DepartureDate" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ArrivalDate" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NumberOfCars" Type="bigint" Nullable="false" />
+          <Property Name="AvailableSeats" Type="bigint" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Car_Train">
+          <End Role="Train" Type="Self.Train" Multiplicity="1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Train">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="TrainID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_History_Passenger">
+          <End Role="Passenger" Type="Self.Passenger" Multiplicity="1" />
+          <End Role="History" Type="Self.History" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Passenger">
+              <PropertyRef Name="PassportNumber" />
+            </Principal>
+            <Dependent Role="History">
+              <PropertyRef Name="PassportNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_History_Train">
+          <End Role="Train" Type="Self.Train" Multiplicity="1" />
+          <End Role="History" Type="Self.History" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Train">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="History">
+              <PropertyRef Name="TrainID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seat_Car">
+          <End Role="Car" Type="Self.Car" Multiplicity="1" />
+          <End Role="Seat" Type="Self.Seat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Seat">
+              <PropertyRef Name="CarID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seat_Passenger">
+          <End Role="Passenger" Type="Self.Passenger" Multiplicity="0..1" />
+          <End Role="Seat" Type="Self.Seat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Passenger">
+              <PropertyRef Name="PassportNumber" />
+            </Principal>
+            <Dependent Role="Seat">
+              <PropertyRef Name="PassengerPassport" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TrainReservationSystemModelStoreContainer">
+          <EntitySet Name="Car" EntityType="Self.Car" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="History" EntityType="Self.History" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LogIn" EntityType="Self.LogIn" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Passenger" EntityType="Self.Passenger" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Seat" EntityType="Self.Seat" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Train" EntityType="Self.Train" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Car_Train" Association="Self.FK_Car_Train">
+            <End Role="Train" EntitySet="Train" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK_History_Passenger" Association="Self.FK_History_Passenger">
+            <End Role="Passenger" EntitySet="Passenger" />
+            <End Role="History" EntitySet="History" />
+          </AssociationSet>
+          <AssociationSet Name="FK_History_Train" Association="Self.FK_History_Train">
+            <End Role="Train" EntitySet="Train" />
+            <End Role="History" EntitySet="History" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seat_Car" Association="Self.FK_Seat_Car">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="Seat" EntitySet="Seat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seat_Passenger" Association="Self.FK_Seat_Passenger">
+            <End Role="Passenger" EntitySet="Passenger" />
+            <End Role="Seat" EntitySet="Seat" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TrainReservationSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TrainReservationSystemEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cars" EntityType="TrainReservationSystemModel.Car" />
+          <EntitySet Name="Histories" EntityType="TrainReservationSystemModel.History" />
+          <EntitySet Name="LogIns" EntityType="TrainReservationSystemModel.LogIn" />
+          <EntitySet Name="Passengers" EntityType="TrainReservationSystemModel.Passenger" />
+          <EntitySet Name="Seats" EntityType="TrainReservationSystemModel.Seat" />
+          <EntitySet Name="Trains" EntityType="TrainReservationSystemModel.Train" />
+          <AssociationSet Name="FK_Car_Train" Association="TrainReservationSystemModel.FK_Car_Train">
+            <End Role="Train" EntitySet="Trains" />
+            <End Role="Car" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seat_Car" Association="TrainReservationSystemModel.FK_Seat_Car">
+            <End Role="Car" EntitySet="Cars" />
+            <End Role="Seat" EntitySet="Seats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_History_Passenger" Association="TrainReservationSystemModel.FK_History_Passenger">
+            <End Role="Passenger" EntitySet="Passengers" />
+            <End Role="History" EntitySet="Histories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_History_Train" Association="TrainReservationSystemModel.FK_History_Train">
+            <End Role="Train" EntitySet="Trains" />
+            <End Role="History" EntitySet="Histories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seat_Passenger" Association="TrainReservationSystemModel.FK_Seat_Passenger">
+            <End Role="Passenger" EntitySet="Passengers" />
+            <End Role="Seat" EntitySet="Seats" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Car">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TrainID" Type="Int64" Nullable="false" />
+          <Property Name="Number" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Train" Relationship="TrainReservationSystemModel.FK_Car_Train" FromRole="Car" ToRole="Train" />
+          <NavigationProperty Name="Seats" Relationship="TrainReservationSystemModel.FK_Seat_Car" FromRole="Car" ToRole="Seat" />
+        </EntityType>
+        <EntityType Name="History">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="PassportNumber" Type="Int64" Nullable="false" />
+          <Property Name="TrainID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Passenger" Relationship="TrainReservationSystemModel.FK_History_Passenger" FromRole="History" ToRole="Passenger" />
+          <NavigationProperty Name="Train" Relationship="TrainReservationSystemModel.FK_History_Train" FromRole="History" ToRole="Train" />
+        </EntityType>
+        <EntityType Name="LogIn">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Passenger">
+          <Key>
+            <PropertyRef Name="PassportNumber" />
+          </Key>
+          <Property Name="PassportNumber" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Histories" Relationship="TrainReservationSystemModel.FK_History_Passenger" FromRole="Passenger" ToRole="History" />
+          <NavigationProperty Name="Seats" Relationship="TrainReservationSystemModel.FK_Seat_Passenger" FromRole="Passenger" ToRole="Seat" />
+        </EntityType>
+        <EntityType Name="Seat">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CarID" Type="Int64" Nullable="false" />
+          <Property Name="Coordinates" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Available" Type="Boolean" Nullable="false" />
+          <Property Name="PassengerPassport" Type="Int64" />
+          <NavigationProperty Name="Car" Relationship="TrainReservationSystemModel.FK_Seat_Car" FromRole="Seat" ToRole="Car" />
+          <NavigationProperty Name="Passenger" Relationship="TrainReservationSystemModel.FK_Seat_Passenger" FromRole="Seat" ToRole="Passenger" />
+        </EntityType>
+        <EntityType Name="Train">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartingStation" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EndingStation" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DepartureDate" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ArrivalDate" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NumberOfCars" Type="Int64" Nullable="false" />
+          <Property Name="AvailableSeats" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Cars" Relationship="TrainReservationSystemModel.FK_Car_Train" FromRole="Train" ToRole="Car" />
+          <NavigationProperty Name="Histories" Relationship="TrainReservationSystemModel.FK_History_Train" FromRole="Train" ToRole="History" />
+        </EntityType>
+        <Association Name="FK_Car_Train">
+          <End Type="TrainReservationSystemModel.Train" Role="Train" Multiplicity="1" />
+          <End Type="TrainReservationSystemModel.Car" Role="Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Train">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="TrainID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seat_Car">
+          <End Type="TrainReservationSystemModel.Car" Role="Car" Multiplicity="1" />
+          <End Type="TrainReservationSystemModel.Seat" Role="Seat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Seat">
+              <PropertyRef Name="CarID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_History_Passenger">
+          <End Type="TrainReservationSystemModel.Passenger" Role="Passenger" Multiplicity="1" />
+          <End Type="TrainReservationSystemModel.History" Role="History" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Passenger">
+              <PropertyRef Name="PassportNumber" />
+            </Principal>
+            <Dependent Role="History">
+              <PropertyRef Name="PassportNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_History_Train">
+          <End Type="TrainReservationSystemModel.Train" Role="Train" Multiplicity="1" />
+          <End Type="TrainReservationSystemModel.History" Role="History" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Train">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="History">
+              <PropertyRef Name="TrainID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seat_Passenger">
+          <End Type="TrainReservationSystemModel.Passenger" Role="Passenger" Multiplicity="0..1" />
+          <End Type="TrainReservationSystemModel.Seat" Role="Seat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Passenger">
+              <PropertyRef Name="PassportNumber" />
+            </Principal>
+            <Dependent Role="Seat">
+              <PropertyRef Name="PassengerPassport" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TrainReservationSystemModelStoreContainer" CdmEntityContainer="TrainReservationSystemEntities1">
+          <EntitySetMapping Name="Cars">
+            <EntityTypeMapping TypeName="TrainReservationSystemModel.Car">
+              <MappingFragment StoreEntitySet="Car">
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="TrainID" ColumnName="TrainID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Histories">
+            <EntityTypeMapping TypeName="TrainReservationSystemModel.History">
+              <MappingFragment StoreEntitySet="History">
+                <ScalarProperty Name="TrainID" ColumnName="TrainID" />
+                <ScalarProperty Name="PassportNumber" ColumnName="PassportNumber" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LogIns">
+            <EntityTypeMapping TypeName="TrainReservationSystemModel.LogIn">
+              <MappingFragment StoreEntitySet="LogIn">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Passengers">
+            <EntityTypeMapping TypeName="TrainReservationSystemModel.Passenger">
+              <MappingFragment StoreEntitySet="Passenger">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PassportNumber" ColumnName="PassportNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Seats">
+            <EntityTypeMapping TypeName="TrainReservationSystemModel.Seat">
+              <MappingFragment StoreEntitySet="Seat">
+                <ScalarProperty Name="PassengerPassport" ColumnName="PassengerPassport" />
+                <ScalarProperty Name="Available" ColumnName="Available" />
+                <ScalarProperty Name="Coordinates" ColumnName="Coordinates" />
+                <ScalarProperty Name="CarID" ColumnName="CarID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Trains">
+            <EntityTypeMapping TypeName="TrainReservationSystemModel.Train">
+              <MappingFragment StoreEntitySet="Train">
+                <ScalarProperty Name="AvailableSeats" ColumnName="AvailableSeats" />
+                <ScalarProperty Name="NumberOfCars" ColumnName="NumberOfCars" />
+                <ScalarProperty Name="ArrivalDate" ColumnName="ArrivalDate" />
+                <ScalarProperty Name="DepartureDate" ColumnName="DepartureDate" />
+                <ScalarProperty Name="EndingStation" ColumnName="EndingStation" />
+                <ScalarProperty Name="StartingStation" ColumnName="StartingStation" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

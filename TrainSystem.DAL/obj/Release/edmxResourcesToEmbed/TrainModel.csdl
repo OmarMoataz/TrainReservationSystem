@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TrainReservationSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="TrainReservationSystemEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Cars" EntityType="TrainReservationSystemModel.Car" />
+    <EntitySet Name="Histories" EntityType="TrainReservationSystemModel.History" />
+    <EntitySet Name="LogIns" EntityType="TrainReservationSystemModel.LogIn" />
+    <EntitySet Name="Passengers" EntityType="TrainReservationSystemModel.Passenger" />
+    <EntitySet Name="Seats" EntityType="TrainReservationSystemModel.Seat" />
+    <EntitySet Name="Trains" EntityType="TrainReservationSystemModel.Train" />
+    <AssociationSet Name="FK_Car_Train" Association="TrainReservationSystemModel.FK_Car_Train">
+      <End Role="Train" EntitySet="Trains" />
+      <End Role="Car" EntitySet="Cars" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Seat_Car" Association="TrainReservationSystemModel.FK_Seat_Car">
+      <End Role="Car" EntitySet="Cars" />
+      <End Role="Seat" EntitySet="Seats" />
+    </AssociationSet>
+    <AssociationSet Name="FK_History_Passenger" Association="TrainReservationSystemModel.FK_History_Passenger">
+      <End Role="Passenger" EntitySet="Passengers" />
+      <End Role="History" EntitySet="Histories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_History_Train" Association="TrainReservationSystemModel.FK_History_Train">
+      <End Role="Train" EntitySet="Trains" />
+      <End Role="History" EntitySet="Histories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Seat_Passenger" Association="TrainReservationSystemModel.FK_Seat_Passenger">
+      <End Role="Passenger" EntitySet="Passengers" />
+      <End Role="Seat" EntitySet="Seats" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Car">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TrainID" Type="Int64" Nullable="false" />
+    <Property Name="Number" Type="Int64" Nullable="false" />
+    <NavigationProperty Name="Train" Relationship="TrainReservationSystemModel.FK_Car_Train" FromRole="Car" ToRole="Train" />
+    <NavigationProperty Name="Seats" Relationship="TrainReservationSystemModel.FK_Seat_Car" FromRole="Car" ToRole="Seat" />
+  </EntityType>
+  <EntityType Name="History">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" />
+    <Property Name="PassportNumber" Type="Int64" Nullable="false" />
+    <Property Name="TrainID" Type="Int64" Nullable="false" />
+    <NavigationProperty Name="Passenger" Relationship="TrainReservationSystemModel.FK_History_Passenger" FromRole="History" ToRole="Passenger" />
+    <NavigationProperty Name="Train" Relationship="TrainReservationSystemModel.FK_History_Train" FromRole="History" ToRole="Train" />
+  </EntityType>
+  <EntityType Name="LogIn">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Type" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Passenger">
+    <Key>
+      <PropertyRef Name="PassportNumber" />
+    </Key>
+    <Property Name="PassportNumber" Type="Int64" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Histories" Relationship="TrainReservationSystemModel.FK_History_Passenger" FromRole="Passenger" ToRole="History" />
+    <NavigationProperty Name="Seats" Relationship="TrainReservationSystemModel.FK_Seat_Passenger" FromRole="Passenger" ToRole="Seat" />
+  </EntityType>
+  <EntityType Name="Seat">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CarID" Type="Int64" Nullable="false" />
+    <Property Name="Coordinates" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Available" Type="Boolean" Nullable="false" />
+    <Property Name="PassengerPassport" Type="Int64" />
+    <NavigationProperty Name="Car" Relationship="TrainReservationSystemModel.FK_Seat_Car" FromRole="Seat" ToRole="Car" />
+    <NavigationProperty Name="Passenger" Relationship="TrainReservationSystemModel.FK_Seat_Passenger" FromRole="Seat" ToRole="Passenger" />
+  </EntityType>
+  <EntityType Name="Train">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StartingStation" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="EndingStation" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DepartureDate" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ArrivalDate" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="NumberOfCars" Type="Int64" Nullable="false" />
+    <Property Name="AvailableSeats" Type="Int64" Nullable="false" />
+    <NavigationProperty Name="Cars" Relationship="TrainReservationSystemModel.FK_Car_Train" FromRole="Train" ToRole="Car" />
+    <NavigationProperty Name="Histories" Relationship="TrainReservationSystemModel.FK_History_Train" FromRole="Train" ToRole="History" />
+  </EntityType>
+  <Association Name="FK_Car_Train">
+    <End Type="TrainReservationSystemModel.Train" Role="Train" Multiplicity="1" />
+    <End Type="TrainReservationSystemModel.Car" Role="Car" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Train">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Car">
+        <PropertyRef Name="TrainID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Seat_Car">
+    <End Type="TrainReservationSystemModel.Car" Role="Car" Multiplicity="1" />
+    <End Type="TrainReservationSystemModel.Seat" Role="Seat" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Car">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Seat">
+        <PropertyRef Name="CarID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_History_Passenger">
+    <End Type="TrainReservationSystemModel.Passenger" Role="Passenger" Multiplicity="1" />
+    <End Type="TrainReservationSystemModel.History" Role="History" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Passenger">
+        <PropertyRef Name="PassportNumber" />
+      </Principal>
+      <Dependent Role="History">
+        <PropertyRef Name="PassportNumber" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_History_Train">
+    <End Type="TrainReservationSystemModel.Train" Role="Train" Multiplicity="1" />
+    <End Type="TrainReservationSystemModel.History" Role="History" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Train">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="History">
+        <PropertyRef Name="TrainID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Seat_Passenger">
+    <End Type="TrainReservationSystemModel.Passenger" Role="Passenger" Multiplicity="0..1" />
+    <End Type="TrainReservationSystemModel.Seat" Role="Seat" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Passenger">
+        <PropertyRef Name="PassportNumber" />
+      </Principal>
+      <Dependent Role="Seat">
+        <PropertyRef Name="PassengerPassport" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

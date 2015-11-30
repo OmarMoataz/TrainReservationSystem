@@ -1,0 +1,24 @@
+E:\TrainSystem\TrainSystem.BLL\bin\Release\TrainSystem.BLL.dll.config
+E:\TrainSystem\TrainSystem.BLL\bin\Release\TrainSystem.BLL.dll
+E:\TrainSystem\TrainSystem.BLL\bin\Release\TrainSystem.BLL.pdb
+E:\TrainSystem\TrainSystem.BLL\bin\Release\EntityFramework.dll
+E:\TrainSystem\TrainSystem.BLL\bin\Release\EntityFramework.SqlServer.dll
+E:\TrainSystem\TrainSystem.BLL\bin\Release\TrainSystem.DAL.dll
+E:\TrainSystem\TrainSystem.BLL\bin\Release\TrainSystem.DAL.pdb
+E:\TrainSystem\TrainSystem.BLL\bin\Release\EntityFramework.xml
+E:\TrainSystem\TrainSystem.BLL\bin\Release\EntityFramework.SqlServer.xml
+E:\TrainSystem\TrainSystem.BLL\obj\Release\TrainSystem.BLL.csprojResolveAssemblyReference.cache
+E:\TrainSystem\TrainSystem.BLL\obj\Release\TrainSystem.BLL.dll
+E:\TrainSystem\TrainSystem.BLL\obj\Release\TrainSystem.BLL.pdb
+E:\VS2013 Projects\TrainSystem\TrainSystem.BLL\bin\Release\TrainSystem.BLL.dll.config
+E:\VS2013 Projects\TrainSystem\TrainSystem.BLL\bin\Release\TrainSystem.BLL.dll
+E:\VS2013 Projects\TrainSystem\TrainSystem.BLL\bin\Release\TrainSystem.BLL.pdb
+E:\VS2013 Projects\TrainSystem\TrainSystem.BLL\bin\Release\EntityFramework.dll
+E:\VS2013 Projects\TrainSystem\TrainSystem.BLL\bin\Release\EntityFramework.SqlServer.dll
+E:\VS2013 Projects\TrainSystem\TrainSystem.BLL\bin\Release\TrainSystem.DAL.dll
+E:\VS2013 Projects\TrainSystem\TrainSystem.BLL\bin\Release\TrainSystem.DAL.pdb
+E:\VS2013 Projects\TrainSystem\TrainSystem.BLL\bin\Release\EntityFramework.xml
+E:\VS2013 Projects\TrainSystem\TrainSystem.BLL\bin\Release\EntityFramework.SqlServer.xml
+E:\VS2013 Projects\TrainSystem\TrainSystem.BLL\obj\Release\TrainSystem.BLL.csprojResolveAssemblyReference.cache
+E:\VS2013 Projects\TrainSystem\TrainSystem.BLL\obj\Release\TrainSystem.BLL.dll
+E:\VS2013 Projects\TrainSystem\TrainSystem.BLL\obj\Release\TrainSystem.BLL.pdb

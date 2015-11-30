@@ -1,0 +1,12 @@
+E:\TrainSystem\TrainSystem.BLL\bin\Debug\TrainSystem.BLL.dll
+E:\TrainSystem\TrainSystem.BLL\bin\Debug\TrainSystem.BLL.pdb
+E:\TrainSystem\TrainSystem.BLL\obj\Debug\TrainSystem.BLL.dll
+E:\TrainSystem\TrainSystem.BLL\obj\Debug\TrainSystem.BLL.pdb
+E:\TrainSystem\TrainSystem.BLL\obj\Debug\TrainSystem.BLL.csprojResolveAssemblyReference.cache
+E:\TrainSystem\TrainSystem.BLL\bin\Debug\TrainSystem.BLL.dll.config
+E:\TrainSystem\TrainSystem.BLL\bin\Debug\EntityFramework.dll
+E:\TrainSystem\TrainSystem.BLL\bin\Debug\EntityFramework.SqlServer.dll
+E:\TrainSystem\TrainSystem.BLL\bin\Debug\TrainSystem.DAL.dll
+E:\TrainSystem\TrainSystem.BLL\bin\Debug\TrainSystem.DAL.pdb
+E:\TrainSystem\TrainSystem.BLL\bin\Debug\EntityFramework.xml
+E:\TrainSystem\TrainSystem.BLL\bin\Debug\EntityFramework.SqlServer.xml

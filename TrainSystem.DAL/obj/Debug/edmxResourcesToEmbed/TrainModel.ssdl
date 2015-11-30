@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TrainReservationSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Car">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TrainID" Type="bigint" Nullable="false" />
+    <Property Name="Number" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="History">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" Nullable="false" />
+    <Property Name="PassportNumber" Type="bigint" Nullable="false" />
+    <Property Name="TrainID" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LogIn">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Type" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Passenger">
+    <Key>
+      <PropertyRef Name="PassportNumber" />
+    </Key>
+    <Property Name="PassportNumber" Type="bigint" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Seat">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CarID" Type="bigint" Nullable="false" />
+    <Property Name="Coordinates" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Available" Type="bit" Nullable="false" />
+    <Property Name="PassengerPassport" Type="bigint" />
+  </EntityType>
+  <EntityType Name="Train">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StartingStation" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="EndingStation" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="DepartureDate" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ArrivalDate" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="NumberOfCars" Type="bigint" Nullable="false" />
+    <Property Name="AvailableSeats" Type="bigint" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Car_Train">
+    <End Role="Train" Type="Self.Train" Multiplicity="1" />
+    <End Role="Car" Type="Self.Car" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Train">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Car">
+        <PropertyRef Name="TrainID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_History_Passenger">
+    <End Role="Passenger" Type="Self.Passenger" Multiplicity="1" />
+    <End Role="History" Type="Self.History" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Passenger">
+        <PropertyRef Name="PassportNumber" />
+      </Principal>
+      <Dependent Role="History">
+        <PropertyRef Name="PassportNumber" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_History_Train">
+    <End Role="Train" Type="Self.Train" Multiplicity="1" />
+    <End Role="History" Type="Self.History" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Train">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="History">
+        <PropertyRef Name="TrainID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Seat_Car">
+    <End Role="Car" Type="Self.Car" Multiplicity="1" />
+    <End Role="Seat" Type="Self.Seat" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Car">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Seat">
+        <PropertyRef Name="CarID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Seat_Passenger">
+    <End Role="Passenger" Type="Self.Passenger" Multiplicity="0..1" />
+    <End Role="Seat" Type="Self.Seat" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Passenger">
+        <PropertyRef Name="PassportNumber" />
+      </Principal>
+      <Dependent Role="Seat">
+        <PropertyRef Name="PassengerPassport" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TrainReservationSystemModelStoreContainer">
+    <EntitySet Name="Car" EntityType="Self.Car" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="History" EntityType="Self.History" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LogIn" EntityType="Self.LogIn" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Passenger" EntityType="Self.Passenger" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Seat" EntityType="Self.Seat" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Train" EntityType="Self.Train" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Car_Train" Association="Self.FK_Car_Train">
+      <End Role="Train" EntitySet="Train" />
+      <End Role="Car" EntitySet="Car" />
+    </AssociationSet>
+    <AssociationSet Name="FK_History_Passenger" Association="Self.FK_History_Passenger">
+      <End Role="Passenger" EntitySet="Passenger" />
+      <End Role="History" EntitySet="History" />
+    </AssociationSet>
+    <AssociationSet Name="FK_History_Train" Association="Self.FK_History_Train">
+      <End Role="Train" EntitySet="Train" />
+      <End Role="History" EntitySet="History" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Seat_Car" Association="Self.FK_Seat_Car">
+      <End Role="Car" EntitySet="Car" />
+      <End Role="Seat" EntitySet="Seat" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Seat_Passenger" Association="Self.FK_Seat_Passenger">
+      <End Role="Passenger" EntitySet="Passenger" />
+      <End Role="Seat" EntitySet="Seat" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
